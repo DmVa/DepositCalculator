@@ -1,0 +1,81 @@
+﻿<Window x:Class="DepositCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DepositCalculator"
+        mc:Ignorable="d"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
+        WindowStartupLocation="CenterScreen"
+        Title="Deposit Calculator" Height="450" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Orientation="Vertical" Background="AliceBlue" >
+            <Label Content="Amount:"></Label>
+            <xctk:SingleUpDown  Margin="5,5,5,5" FormatString="G" Increment="100" Value="{Binding Path=Amount, Mode=TwoWay}" Minimum="0"  Name="amountUpDown" />
+            <Label Content="Term:"></Label>
+            <xctk:IntegerUpDown  Margin="5,5,5,5" Value="{Binding Path=Term, Mode=TwoWay}" Minimum="1" Name="termUpDown" />
+            <Label Content="Rate:"></Label>
+            <xctk:SingleUpDown  Margin="5,5,5,5" FormatString="P" Increment=".001" Value="{Binding Path=Rate, Mode=TwoWay}" Minimum="0" Name="rateUpDown" />
+            <Label Content="Currency"></Label>
+
+            <ComboBox Margin="5" SelectedIndex="{Binding Path=SelectedCurrencyIndex, Mode=TwoWay}">
+                <ComboBoxItem >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/euro.png" Width="20" Height="10" Margin="2" />
+                        <TextBlock>EUR</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Orientation="Horizontal ">
+                        <Image Source="/Images/usa.png" Width="20" Height="10" Margin="2" />
+                        <TextBlock>USD</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/ukraine.png" Width="20" Height="10" Margin="2" />
+                        <TextBlock>UAH</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+            </ComboBox>
+            <Label Content="Interest Payment:" Margin="5,10,5,5"></Label>
+            <RadioButton Margin="5" IsChecked="{Binding Path=IsCapitalization, Mode=TwoWay}">Capitalization</RadioButton>
+            <RadioButton Margin="5" IsChecked="{Binding Path=IsMonthly, Mode=TwoWay}">Monthly Payment</RadioButton>
+            <Button Command="{Binding CalcInterest}" Height="20" Content="Calculate" Margin="5, 20, 5, 5"/>
+            <Label Content="Calculated Interest:" ></Label>
+            <Label Content="{Binding InterestFromattedString}"  FontWeight="Bold" ></Label>
+
+        </StackPanel>
+
+
+        <DockPanel Grid.Column="1" Margin="5">
+            <Label DockPanel.Dock="Top" Content="Interest calculation by months" Margin="5"></Label>
+            <DataGrid  x:Name="calculationLog" DockPanel.Dock="Top" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible"
+           ItemsSource="{Binding CalcResults}"
+           CanUserAddRows="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding LineNumber}" Header="Month" Width="80"  >
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Deposit}" Header="Investment" Width="80">
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Interest}" Header="Interest" Width="80">
+                    </DataGridTextColumn>
+                    
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+
+</Window>
