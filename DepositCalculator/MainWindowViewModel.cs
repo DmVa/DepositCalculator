@@ -15,8 +15,8 @@ namespace DepositCalculator
     {
         private int _term;
         private int _selectedCurrencyIndex;
-        private double _amount;
-        private double _rate;
+        private decimal _amount;
+        private decimal _rate;
         private string _interestFromattedString = string.Empty;
         private bool _isCapitalization;
         private bool _isMonthly;
@@ -44,7 +44,7 @@ namespace DepositCalculator
             }
         }
 
-        public double Amount
+        public decimal Amount
         {
             get { return _amount; }
             set
@@ -53,7 +53,7 @@ namespace DepositCalculator
                 NotifyPropertyChanged();
             }
         }
-        public double Rate
+        public decimal Rate
         {
             get { return _rate; }
             set
@@ -120,7 +120,7 @@ namespace DepositCalculator
         {
             Amount = 1000;
             Term = 12;
-            Rate = 0.05;
+            Rate = 0.05m;
             InterestFromattedString = "";
             SelectedCurrencyIndex = 0;
             IsMonthly = true;

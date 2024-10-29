@@ -2,10 +2,10 @@
 {
     public class MonthlyCalc : InterestCalculatorBase
     {
-        public override double Calc(double amount, int termMonthes, double rate, out IEnumerable<CalcResult> calculationDetails)
+        public override decimal Calc(decimal amount, int termMonthes, decimal rate, out IEnumerable<CalcResult> calculationDetails)
         {
             var details = new CalcResult[termMonthes];
-            double interest = 0.0;
+            decimal interest = 0.0m;
             for (int index = 0; index <= termMonthes - 1; index++)
             {
                 CalcResult monthCalculation = new CalcResult()

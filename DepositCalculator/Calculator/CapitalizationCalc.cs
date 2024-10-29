@@ -2,7 +2,7 @@
 {
     public class CapitalizationCalc: InterestCalculatorBase
     {
-        public override double Calc(double amount, int termMonthes, double rate, out IEnumerable<CalcResult> calculationDetails)
+        public override decimal Calc(decimal amount, int termMonthes, decimal rate, out IEnumerable<CalcResult> calculationDetails)
         {
             var details = new CalcResult[termMonthes];
             var prevAmount = amount;
@@ -27,7 +27,7 @@
                 return last.InitialFunded + last.ToCapitalization - amount;
             }
 
-            return 0.0;
+            return 0.0m;
         }
     }
 }

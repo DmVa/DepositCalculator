@@ -10,8 +10,8 @@ namespace DepositCalculator.Tests
         {
             CapitalizationCalc calc = new CapitalizationCalc();
             IEnumerable<CalcResult> calculationDetails;
-            var interest = calc.Calc(1000, 12, 0.05, out calculationDetails);
-            Assert.IsTrue(Math.Abs(interest - 51.16) < 0.01);
+            var interest = calc.Calc(1000, 12, 0.05m, out calculationDetails);
+            Assert.IsTrue(Math.Abs(interest - 51.16m) < 0.01m);
         }
     }
 }

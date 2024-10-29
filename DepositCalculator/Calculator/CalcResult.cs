@@ -2,8 +2,8 @@
 {
     public class CalcResult
     {
-        public double InitialFunded { get; set; }
-        public double ToCapitalization { get; set; }
-        public double ToChekout { get; set; }
+        public decimal InitialFunded { get; set; }
+        public decimal ToCapitalization { get; set; }
+        public decimal ToChekout { get; set; }
     }
 }
