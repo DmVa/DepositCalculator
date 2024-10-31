@@ -6,12 +6,11 @@ namespace DepositCalculator.Tests
     public class CapitalizationCalcTests
     {
         [TestMethod]
-        public void CapitalizationCalc_Calc_CalcYear()
+        public async Task CapitalizationCalc_Calc_CalcYear()
         {
             CapitalizationCalc calc = new CapitalizationCalc();
-            IEnumerable<CalcResult> calculationDetails;
-            var interest = calc.Calc(1000, 12, 0.05m, out calculationDetails);
-            Assert.IsTrue(Math.Abs(interest - 51.16m) < 0.01m);
+            var calcResult = await calc.Calc(1000, 12, 0.05m);
+            Assert.IsTrue(Math.Abs(calcResult.Interest - 51.16m) < 0.01m);
         }
     }
 }

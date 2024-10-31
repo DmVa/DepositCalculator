@@ -2,6 +2,6 @@
 {
     public abstract class InterestCalculatorBase
     {
-        public abstract decimal Calc(decimal amount, int termMonthes, decimal rate, out IEnumerable<CalcResult> calculationDetails);
+        public abstract Task<CalculationResult> Calc(decimal amount, int termMonthes, decimal rate);
     }
 }

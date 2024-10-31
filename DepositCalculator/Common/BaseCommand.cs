@@ -1,13 +1,14 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace DepositCalculator.Common
 {
     public class BaseCommand : ICommand
     {
-        private Action _action;
+        private Func<Task> _action;
         private Func<bool> _canExecute;
 
-        public BaseCommand(Action action, Func<bool> canExecute) 
+        public BaseCommand(Func<Task> action, Func<bool> canExecute) 
         {
             _action = action;
             _canExecute = canExecute;

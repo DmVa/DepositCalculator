@@ -105,9 +105,9 @@ namespace DepositCalculator
         public BaseCommand CalcInterest { get; }
         public class DisplayCalcResult
         {
-            public string LineNumber { get; set; }
-            public string Deposit { get; set; }
-            public string Interest { get; set; }
+            public string? LineNumber { get; set; }
+            public string? Deposit { get; set; }
+            public string? Interest { get; set; }
         }
 
         public MainWindowViewModel()
@@ -131,21 +131,19 @@ namespace DepositCalculator
             return Amount > 0 && Term > 0;
         }
 
-        private void CalcInterestAction()
+        private async Task CalcInterestAction()
         {
             InterestPayType payType = GetPayType();
             CalcResults.Clear();
             var calulator = CalculatorFactoty.Instance.CreateCalculator(payType);
-            IEnumerable<CalcResult> calculationDetails;
-            var totalIterest = calulator.Calc(Amount, Term, Rate, out calculationDetails);
-
-            SetCalcResults(calculationDetails);
+            var calcResult = await calulator.Calc(Amount, Term, Rate);
+            SetCalcResults(calcResult.Details);
 
             var culture = GetCulture();
-            InterestFromattedString = totalIterest.ToString("C", culture);
+            InterestFromattedString = calcResult.Interest.ToString("C", culture);
         }
 
-        private void SetCalcResults(IEnumerable<Calculator.CalcResult> results)
+        private void SetCalcResults(IEnumerable<Calculator.CalcDetailLine> results)
         {
             CalcResults.Clear();
             List<DisplayCalcResult> newResults = new List<DisplayCalcResult>();

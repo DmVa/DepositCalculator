@@ -1,6 +1,6 @@
 ﻿namespace DepositCalculator.Calculator
 {
-    public class CalcResult
+    public class CalcDetailLine
     {
         public decimal InitialFunded { get; set; }
         public decimal ToCapitalization { get; set; }

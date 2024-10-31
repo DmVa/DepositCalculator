@@ -2,25 +2,33 @@
 {
     public class MonthlyCalc : InterestCalculatorBase
     {
-        public override decimal Calc(decimal amount, int termMonthes, decimal rate, out IEnumerable<CalcResult> calculationDetails)
+        public override Task<CalculationResult> Calc(decimal amount, int termMonthes, decimal rate)
         {
-            var details = new CalcResult[termMonthes];
-            decimal interest = 0.0m;
-            for (int index = 0; index <= termMonthes - 1; index++)
+            var task = new Task<CalculationResult>(() =>
             {
-                CalcResult monthCalculation = new CalcResult()
+                var result = new CalculationResult();
+                var details = new CalcDetailLine[termMonthes];
+                decimal interest = 0.0m;
+                for (int index = 0; index <= termMonthes - 1; index++)
                 {
-                    InitialFunded = amount,
-                    ToCapitalization = 0,
-                    ToChekout = amount * rate / 12
-                };
+                    CalcDetailLine monthCalculation = new CalcDetailLine()
+                    {
+                        InitialFunded = amount,
+                        ToCapitalization = 0,
+                        ToChekout = amount * rate / 12
+                    };
 
-                interest += monthCalculation.ToChekout;
-                details[index] = monthCalculation;
-            }
+                    interest += monthCalculation.ToChekout;
+                    details[index] = monthCalculation;
+                }
 
-            calculationDetails = details;
-            return interest;
+                result.Details = details;
+                result.Interest = interest;
+                return result;
+            });
+            task.Start();
+            return task;
+        
         }
     }
 }

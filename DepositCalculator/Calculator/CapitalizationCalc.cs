@@ -2,32 +2,39 @@
 {
     public class CapitalizationCalc: InterestCalculatorBase
     {
-        public override decimal Calc(decimal amount, int termMonthes, decimal rate, out IEnumerable<CalcResult> calculationDetails)
+        public override Task<CalculationResult> Calc(decimal amount, int termMonthes, decimal rate)
         {
-            var details = new CalcResult[termMonthes];
-            var prevAmount = amount;
-            var capitalization = amount * rate / 12;
-            for (int i = 0; i <= termMonthes - 1; i++)
+            var task = new Task<CalculationResult>(()=>
             {
-                var calcResult = new CalcResult
+                var result = new CalculationResult();
+                var details = new CalcDetailLine[termMonthes];
+                var prevAmount = amount;
+                var capitalization = amount * rate / 12;
+                for (int i = 0; i <= termMonthes - 1; i++)
                 {
-                    InitialFunded = prevAmount,
-                    ToCapitalization = prevAmount * rate / 12,
-                    ToChekout = 0
-                };
+                    var calcResult = new CalcDetailLine
+                    {
+                        InitialFunded = prevAmount,
+                        ToCapitalization = prevAmount * rate / 12,
+                        ToChekout = 0
+                    };
 
-                prevAmount = calcResult.InitialFunded + calcResult.ToCapitalization;
-                details[i] = calcResult;
+                    prevAmount = calcResult.InitialFunded + calcResult.ToCapitalization;
+                    details[i] = calcResult;
+                }
+
+                result.Details = details;
+                if (termMonthes > 0)
+                {
+                    var last = details[termMonthes - 1];
+                    result.Interest = last.InitialFunded + last.ToCapitalization - amount;
+                }
+                return result;
             }
+            );
+            task.Start();
 
-            calculationDetails = details;
-            if (termMonthes > 0)
-            {
-                var last = details[termMonthes - 1];
-                return last.InitialFunded + last.ToCapitalization - amount;
-            }
-
-            return 0.0m;
+            return task;
         }
     }
 }
